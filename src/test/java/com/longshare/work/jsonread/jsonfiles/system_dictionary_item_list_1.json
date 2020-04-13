@@ -1,0 +1,57 @@
+{
+  "pageCode": "system_dictionary_item_list_1",
+  "pageName": "字典管理",
+  "showQuery": false,
+  "showAdvancedQuery": false,
+  "dynamicTable": {
+    "basicConfig": {
+      "pageSize": 10,
+      "gridCode": "system_dictionary_list",
+      "pageSizeOptions": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "hasCheckBox": true
+    },
+    "columnOperation": [
+      {
+        "title": "编辑",
+        "code": "editDetail"
+      }
+    ],
+    "columnsConfig": [{
+      "title": "代码",
+      "field": "code",
+      "width": 150,
+      "align": "left",
+      "headAlign": "left",
+      "formatter": null,
+      "sortable": true,
+      "order": 1
+    },
+      {
+        "title": "值",
+        "field": "value",
+        "width": 150,
+        "align": "left",
+        "headAlign": "left",
+        "formatter": null,
+        "sortable": true,
+        "order": 2
+      },
+      {
+        "title": "顺序",
+        "field": "no",
+        "width": 150,
+        "align": "left",
+        "headAlign": "left",
+        "formatter": null,
+        "sortable": true,
+        "order": 3
+      }
+    ]
+  }
+}
