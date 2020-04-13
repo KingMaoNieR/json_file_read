@@ -6,17 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+
 @RestController
 @RequestMapping("/")
-public class test {
+public class JsonreadTest {
 
-    String url="/Users/mao_nier/IdeaProjects/jsonread/src/test/java/com/longshare/work/jsonread/jsonfiles";
+//    String url="C:\\Users\\jinhz\\IdeaProjects\\jsonfileread\\src\\test\\java\\com\\longshare\\work\\jsonread\\jsonfiles";
 
     @Autowired
     private JsonfilereadUtil jsonfilereadUtil;
 
-    @RequestMapping(value = "/jsondbread",method = RequestMethod.GET)
-    public void ptest() {
-        jsonfilereadUtil.Jsonfileread(url);
+    @RequestMapping(value = "/jsondbread", method = RequestMethod.GET)
+    public void ptest(String url , HttpServletResponse response) {
+        jsonfilereadUtil.Jsonfileread(url , response);
     }
 }
