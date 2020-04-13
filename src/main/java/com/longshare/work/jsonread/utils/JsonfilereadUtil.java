@@ -15,9 +15,9 @@ import java.io.*;
 public class JsonfilereadUtil {
 
     public void Jsonfileread(String packagepath, HttpServletResponse response) {
-        File f = null;
+        File Packagepath = null;
         try {
-            f = new File(packagepath);
+            Packagepath = new File(packagepath);
         } catch (Exception e) {
             log.error("文件夹路径错误或不存在");
             throw ProblemSolver.server(JsonProblemCode.JSON_PACKAGE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
@@ -42,7 +42,7 @@ public class JsonfilereadUtil {
                     return false;
                 }
             };
-            paths = f.listFiles(fileNameFilter);
+            paths = Packagepath.listFiles(fileNameFilter);
             File sqlfile = new File("json.sql");
             if (sqlfile.exists()) {
                 sqlfile.delete();
@@ -50,16 +50,28 @@ public class JsonfilereadUtil {
             for (File path : paths) {
                 String sql = filedateread(path);
                 sqlfile.createNewFile();
-                FileOutputStream stream = new FileOutputStream(sqlfile, true);
-                byte[] buf = sql.getBytes();
-                stream.write(buf);
-                String newLine = System.getProperty("line.separator");
-                stream.write(newLine.getBytes());
-                stream.flush();
-                stream.close();
+                FileOutputStream stream = null;
+                try {
+                    stream = new FileOutputStream(sqlfile, true);
+                    byte[] buf = sql.getBytes();
+                    stream.write(buf);
+                    String newLine = System.getProperty("line.separator");
+                    stream.write(newLine.getBytes());
+                    stream.flush();
+                }catch (IOException e){
+                    log.error("FileOutputStream流输出失败");
+                    throw ProblemSolver.server(JsonProblemCode.JSON_FILEOUTPUTSTREAM_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
+                }finally {
+                    try {
+                        stream.close();
+                    } catch (IOException e) {
+                        log.error("FileOutputStream流关闭失败");
+                        throw ProblemSolver.server(JsonProblemCode.JSON_FILEOUTPUTSTREAM_CLOSE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
+                    }
+                }
             }
             Download(sqlfile.toString(), sqlfile.getAbsolutePath(), response);
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error("目录中无json后缀的文件");
             throw ProblemSolver.server(JsonProblemCode.JSON_FILES_NULL).withStatus(Status.UNPROCESSABLE_ENTITY).build();
         }
@@ -91,24 +103,27 @@ public class JsonfilereadUtil {
             return sql;
         } catch (UnsupportedEncodingException e) {
             log.error("输入流失败");
-
+            throw ProblemSolver.server(JsonProblemCode.JSON_INPUTSTREAMREADER_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
         } catch (FileNotFoundException e) {
             log.error("文件读取失败");
+            throw ProblemSolver.server(JsonProblemCode.JSON_FILEINPUTSTREAM_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
         } catch (IOException e) {
             log.error("读取文件行数据失败");
+            throw ProblemSolver.server(JsonProblemCode.JSON_READLINE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
         }finally {
             try {
                 fileInputStream.close();
             } catch (IOException e) {
                 log.error("fileInputStream流关闭失败");
+                throw ProblemSolver.server(JsonProblemCode.JSON_FILEINPUTSTREAM_CLOSE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
             }
             try {
                 inputStreamReader.close();
             } catch (IOException e) {
                 log.error("inputStreamReader流关闭失败");
+                throw ProblemSolver.server(JsonProblemCode.JSON_INPUTSTREAMREADER_CLOSE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
             }
         }
-        return null;
     }
 
     public String creatdate(String id, String content) {
@@ -135,7 +150,8 @@ public class JsonfilereadUtil {
                     i = bis.read(buffer);
                 }
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                log.error("Download 输入流失败");
+                throw ProblemSolver.server(JsonProblemCode.JSON_INPUTSTREAMREADER_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -143,14 +159,16 @@ public class JsonfilereadUtil {
                     try {
                         bis.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error("Download BufferedInputStream流关闭失败");
+                        throw ProblemSolver.server(JsonProblemCode.JSON_BUFFEREDINPUTSTREAM_CLOSE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
                     }
                 }
                 if (fis != null) {
                     try {
                         fis.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error("Download fileInputStream流关闭失败");
+                        throw ProblemSolver.server(JsonProblemCode.JSON_FILEINPUTSTREAM_CLOSE_ERROR).withStatus(Status.UNPROCESSABLE_ENTITY).build();
                     }
                 }
             }
