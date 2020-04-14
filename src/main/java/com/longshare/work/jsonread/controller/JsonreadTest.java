@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 
 @RestController
 @RequestMapping("/")
 public class JsonreadTest {
-
-//    String url="C:\\Users\\jinhz\\IdeaProjects\\jsonfileread\\src\\test\\java\\com\\longshare\\work\\jsonread\\jsonfiles";
 
     @Autowired
     private JsonfilereadUtil jsonfilereadUtil;
