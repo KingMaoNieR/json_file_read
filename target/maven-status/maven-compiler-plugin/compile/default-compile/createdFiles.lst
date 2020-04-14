@@ -1,5 +1,6 @@
+com\longshare\work\jsonread\controller\JsonreadController.class
 com\longshare\work\jsonread\JsonreadApplication.class
+com\longshare\work\jsonread\config\SwaggerConfig.class
 com\longshare\work\jsonread\utils\JsonfilereadUtil$1.class
 com\longshare\work\jsonread\utils\JsonfilereadUtil.class
-com\longshare\work\jsonread\controller\JsonreadTest.class
 com\longshare\work\jsonread\JsonProblemCode.class

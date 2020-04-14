@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/")
-public class JsonreadTest {
+public class JsonreadController {
 
     @Autowired
     private JsonfilereadUtil jsonfilereadUtil;
 
-    @RequestMapping(value = "/jsondbread", method = RequestMethod.GET)
-    public void ptest(String url , HttpServletResponse response) {
+    @RequestMapping(value = "/json_read", method = RequestMethod.GET)
+    public void json_read(String url , HttpServletResponse response) {
         jsonfilereadUtil.Jsonfileread(url , response);
     }
 }

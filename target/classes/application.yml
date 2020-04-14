@@ -8,3 +8,5 @@ server:
 rest:
   cache:
     enable: false
+  swagger:
+    enable: true
