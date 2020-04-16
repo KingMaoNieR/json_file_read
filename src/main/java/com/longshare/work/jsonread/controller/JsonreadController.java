@@ -1,6 +1,6 @@
 package com.longshare.work.jsonread.controller;
 
-import com.longshare.work.jsonread.utils.JsonfilereadUtil;
+import com.longshare.work.jsonread.utils.JsonFileReadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 public class JsonreadController {
 
     @Autowired
-    private JsonfilereadUtil jsonfilereadUtil;
+    private JsonFileReadUtil jsonFileReadUtil;
 
     @RequestMapping(value = "/json_read", method = RequestMethod.GET)
     public void json_read(String url , HttpServletResponse response) {
-        jsonfilereadUtil.Jsonfileread(url , response);
+        jsonFileReadUtil.jsonFileRead(url , response);
     }
 }
